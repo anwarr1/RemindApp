@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -92,7 +94,14 @@ class _AddUserState extends State<AddUser> {
                           lastDate: DateTime(2025))
                       .then((value) {
                     setState(() {
-                      datetime = value.toString();
+                      // String d = (value!.day + '/' + value!.month + value!.year).toString();
+                      // String d = value!.day.toString() +
+                      //     "/" +
+                      //     value.month.toString() +
+                      //     "/" +
+                      //     value.year.toString();
+                      datetime =
+                          '${value!.day}/${value.month}/${value.year}  ${TimeOfDay.now().hour}:${TimeOfDay.now().minute} ';
                     });
                   });
                 },
@@ -132,7 +141,8 @@ class _AddUserState extends State<AddUser> {
                     FirebaseFirestore.instance.collection("clients").add({
                       'name': nameController.value.text,
                       "phone": PhoneController.value.text,
-                      "email": EmailController.value.text
+                      "email": EmailController.value.text,
+                      "date": datetime
                     });
                   },
                   style: ElevatedButton.styleFrom(
